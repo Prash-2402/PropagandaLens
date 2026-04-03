@@ -6,7 +6,6 @@ langdetect==1.0.9
 transformers==4.44.2
 sentencepiece==0.2.0
 torch
-nltk==3.9.1
 reportlab==4.2.5
 python-multipart==0.0.9
 pydantic==2.9.2

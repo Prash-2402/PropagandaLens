@@ -18,22 +18,11 @@ import time
 import logging
 from typing import Optional
 
-import nltk
 from langdetect import detect, LangDetectException
 from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# Download NLTK data silently on first run
-try:
-    nltk.data.find("tokenizers/punkt_tab")
-except LookupError:
-    nltk.download("punkt_tab", quiet=True)
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", quiet=True)
 
 logger = logging.getLogger(__name__)
 
@@ -222,10 +211,9 @@ def analyze_text(text: str) -> dict:
             logger.warning(f"Translation failed: {e}. Proceeding with original.")
             translated_text = text
 
-    # 3. Sentence tokenize
-    sentences = nltk.sent_tokenize(translated_text)
-    if not sentences:
-        sentences = [translated_text]
+    # 3. Sentence tokenize (Using simple Regex instead of heavy NLTK models)
+    sentences = re.split(r'(?<=[.!?])\s+', translated_text.strip())
+    sentences = [s.strip() for s in sentences if s.strip()]
 
     # 4. Classify each sentence
     detected_spans = []
