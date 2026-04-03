@@ -33,8 +33,9 @@ export default function ChatBot({ analysisContext }) {
     try {
       // Build history (excluding system prompt which is handled by backend)
       const history = messages.map(m => ({ role: m.role, content: m.content }));
+      const baseUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
       
-      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/chat`, {
+      const res = await axios.post(`${baseUrl}/chat`, {
         message: text,
         analysis_id: analysisContext.analysis_id,
         history: history

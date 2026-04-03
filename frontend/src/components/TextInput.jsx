@@ -10,9 +10,10 @@ export default function TextInput({ onAnalyzeStart, onAnalyzeComplete }) {
   const handleAnalyze = async () => {
     if (!text.trim() || text.length < 10) return alert('Please enter at least 10 characters.');
     
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
     onAnalyzeStart();
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/analyze`, { text });
+      const res = await axios.post(`${baseUrl}/analyze`, { text });
       onAnalyzeComplete(res.data);
     } catch (err) {
       console.error(err);
@@ -29,8 +30,9 @@ export default function TextInput({ onAnalyzeStart, onAnalyzeComplete }) {
     const formData = new FormData();
     formData.append('file', file);
 
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/upload`, formData, {
+      const res = await axios.post(`${baseUrl}/upload`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setText(res.data.text);

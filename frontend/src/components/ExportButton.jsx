@@ -8,8 +8,9 @@ export default function ExportButton({ analysisId }) {
     if (!analysisId) return;
     setLoading(true);
     
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/export/pdf/${analysisId}`, {
+      const response = await fetch(`${baseUrl}/export/pdf/${analysisId}`, {
         method: 'GET',
       });
       

@@ -25,9 +25,10 @@ export default function Timeline() {
     const validDocs = documents.filter(d => d.text.trim().length > 10);
     if (validDocs.length < 2) return alert('Need at least 2 valid documents for timeline.');
 
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
     setLoading(true);
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/timeline`, { documents: validDocs });
+      const res = await axios.post(`${baseUrl}/timeline`, { documents: validDocs });
       setTimelineData(res.data);
     } catch (err) {
       console.error(err);
